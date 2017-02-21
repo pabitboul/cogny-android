@@ -1,0 +1,38 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:padding="16dp"
+    tools:context="com.medicoom.cogny.fragment.WelcomeFragment"
+    tools:showIn="@layout/activity_welcome">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_welcome"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/start_container"
+        android:minWidth="1sp"
+        android:scrollbars="vertical" />
+
+    <RelativeLayout
+        android:id="@+id/start_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="8dp"
+        android:background="@color/cardview_light_background"
+        android:clickable="true"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/start_text"
+            android:textSize="22sp"
+            tools:text="@string/start_text" />
+    </RelativeLayout>
+
+</RelativeLayout>

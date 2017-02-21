@@ -6,8 +6,54 @@
 
     <string name="action_settings">Settings</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="meds_fragment">Meds fragment</string>
     <string name="foods_fragment">Foods fragment</string>
     <string name="gyms_fragment">Gyms fragment</string>
+
+    <string name="welcome_title">Hola, soy Cogny!</string>
+    <string name="welcome_body">Seré tu asistente virtual experta en diabetes y te iré dando sugerencias en base a tus objetivos e iremos aprendiendo juntos a vivir una vida mas&#8230;</string>
+    <string name="medication_title">Medicación</string>
+    <string name="medication_body">Llevaré un control de tu medicación, recordándote cuan&#8230;</string>
+    <string name="diet_title">Dieta</string>
+    <string name="diet_body">Haré un seguimiento diario de tu dieta sugiriéndote platos y opcio&#8230;</string>
+    <string name="carbohydrates_title">Cálculo de carbohidratos</string>
+    <string name="carbohydrates_body">Te ayudaré a calcular las raciones de carbohidratos y calorías.</string>
+    <string name="exercise_title">Ejercicio</string>
+    <string name="exercise_body">Te recordaré hacer ejercicios e iremos definiendo objetivos a cu&#8230;</string>
+    <string name="mood_title">Estado de ánimo</string>
+    <string name="mood_body">Seguiré tu estado de ánimo. Es muy importante!</string>
+    <string name="start_text">Comenzar!</string>
+    <string name="continue_text">Continuar</string>
+    <string name="start_title">Hola, comencemos!</string>
+    <string name="start_body">Necesito conocer un poco de vos para ser preciso en mis sugerencias.</string>
+    <string name="question_name">¿Como te llamas?</string>
+    <string name="question_email">¿Cuál es tu email?</string>
+    <string name="question_birthday">¿Cuál es tu fecha de nacimiento?</string>
+    <string name="question_calories">¿Cuál es el consumo diario de kCal o raciones que te ha recomendado tu nutricionista o profesional sanitario?</string>
+    <string name="kilo_calories_tab">kCal</string>
+    <string name="portions_tab">Estado de ánimo</string>
+    <string name="question_menu">¿Como quieres repartir tu menú?</string>
+    <string name="meals_tab">%1$s comidas</string>
+    <string name="customize_your_menu">Personaliza el reparto del menú</string>
+    <string name="greeting">Buenos %1$s %2$s</string>
+    <string name="morning">días</string>
+    <string name="afternoon">tardes</string>
+    <string name="evening">noches</string>
+    <string name="question_mood">¿Como te sientes hoy?</string>
+    <!--Foods fragment -->
+    <string name="suggested_meals_dishes_options">Los platos que te sugeriré tendrán las siguientes proporciones:</string>
+    <string name="suggested_breakfast_options">Para comenzar el día con energía te sugiero estas opciones de desayuno:</string>
+    <string name="suggested_breakfast_first">Café, jugo de naranja y tostadas con queso crema</string>
+    <string name="suggested_breakfast_second">Cereales con fruta</string>
+    <string name="suggested_lunch_options">Es hora de almorzar %1$s!\nTe sugiero los siguientes platos:</string>
+    <string name="suggested_lunch_first">Ensalada con atún</string>
+    <string name="suggested_lunch_second">Omelette</string>
+    <string name="suggested_lunch_third">Zapallitos rellenos</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_welcome">WelcomeActivity</string>
+    <!--Foods fragment -->
+
+
 </resources>
