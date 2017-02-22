@@ -24,15 +24,14 @@ public class WelcomeAdapter extends RecyclerView.Adapter<WelcomeAdapter.WelcomeV
     private int mLastPosition;
     private WelcomeAdapterListener mListener;
 
-    public interface WelcomeAdapterListener{
+    public interface WelcomeAdapterListener {
         void onItemAdded();
     }
 
     @Override
     public WelcomeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.welcome_view_item, parent, false);
-        WelcomeViewHolder viewHolder = new WelcomeViewHolder(view);
-        return viewHolder;
+        return new WelcomeViewHolder(view);
     }
 
     public WelcomeAdapter(List<WelcomeItem> list, Context context, WelcomeAdapterListener listener) {
@@ -51,7 +50,7 @@ public class WelcomeAdapter extends RecyclerView.Adapter<WelcomeAdapter.WelcomeV
 
     public void addItem(WelcomeItem welcomeItem) {
         mWelcomeItemList.add(welcomeItem);
-        notifyDataSetChanged();
+        notifyItemInserted(mWelcomeItemList.size() - 1);
         mListener.onItemAdded();
     }
 
@@ -69,7 +68,7 @@ public class WelcomeAdapter extends RecyclerView.Adapter<WelcomeAdapter.WelcomeV
         return mWelcomeItemList.size();
     }
 
-    public static class WelcomeViewHolder extends RecyclerView.ViewHolder {
+    static class WelcomeViewHolder extends RecyclerView.ViewHolder {
         CardView cv;
         TextView title;
         TextView body;

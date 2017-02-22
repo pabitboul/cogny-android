@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/start_container"
         android:minWidth="1sp"
-        android:scrollbars="vertical" />
+        android:scrollbars="none" />
 
     <RelativeLayout
         android:id="@+id/start_container"

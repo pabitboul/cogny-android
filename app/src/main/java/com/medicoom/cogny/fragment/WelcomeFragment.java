@@ -3,7 +3,6 @@ package com.medicoom.cogny.fragment;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +11,7 @@ import android.view.ViewGroup;
 import com.medicoom.cogny.R;
 import com.medicoom.cogny.adapter.WelcomeAdapter;
 import com.medicoom.cogny.model.WelcomeItem;
+import com.medicoom.cogny.view.SmoothScrollingLinearLayoutManager;
 
 import java.util.ArrayList;
 
@@ -28,7 +28,7 @@ import static com.medicoom.cogny.fragment.WelcomeFragment.WelcomeItemType.MOOD;
  */
 public class WelcomeFragment extends Fragment implements WelcomeAdapter.WelcomeAdapterListener {
     private RecyclerView rvItems;
-    private LinearLayoutManager rvItemsLayoutManager;
+    private SmoothScrollingLinearLayoutManager smoothScrollingLinearLayoutManager;
     private WelcomeAdapter mWelcomeAdapter;
     private Runnable mRunnable;
     private Handler mHandler;
@@ -39,7 +39,7 @@ public class WelcomeFragment extends Fragment implements WelcomeAdapter.WelcomeA
         int DIET = 2;
         int CARBOHYDRATES = 3;
         int EXERCISE = 4;
-        int MOOD  = 5;
+        int MOOD = 5;
     }
 
     public WelcomeFragment() {
@@ -50,23 +50,17 @@ public class WelcomeFragment extends Fragment implements WelcomeAdapter.WelcomeA
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_welcome, container, false);
         rvItems = (RecyclerView) rootView.findViewById(R.id.rv_welcome);
-        rvItemsLayoutManager = new LinearLayoutManager(getActivity());
+        smoothScrollingLinearLayoutManager = new SmoothScrollingLinearLayoutManager(getActivity());
         return rootView;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        /*WelcomeAdapter welcomeAdapter = new WelcomeAdapter(createItems(), getActivity());
-        rvItems.setHasFixedSize(true);
-        rvItems.setLayoutManager(rvItemsLayoutManager);
-        rvItems.setAdapter(welcomeAdapter);
-        welcomeAdapter.notifyDataSetChanged();*/
-
         mWelcomeAdapter = new WelcomeAdapter(this, getActivity());
+        mHandler = new Handler();
         rvItems.setHasFixedSize(true);
-        rvItems.setLayoutManager(rvItemsLayoutManager);
+        rvItems.setLayoutManager(smoothScrollingLinearLayoutManager);
         rvItems.setAdapter(mWelcomeAdapter);
         mWelcomeAdapter.addItem(createWelcomeItem(DEFAULT));
 
@@ -74,7 +68,7 @@ public class WelcomeFragment extends Fragment implements WelcomeAdapter.WelcomeA
 
     private WelcomeItem createWelcomeItem(int type) {
         WelcomeItem itemWelcome = new WelcomeItem();
-        switch (type){
+        switch (type) {
             case MEDICINE:
                 itemWelcome.setTitle(getString(R.string.medication_title));
                 itemWelcome.setBody(getString(R.string.medication_body));
@@ -109,7 +103,7 @@ public class WelcomeFragment extends Fragment implements WelcomeAdapter.WelcomeA
         return itemWelcome;
     }
 
-    private ArrayList<WelcomeItem> createItems() {
+    private ArrayList<WelcomeItem> createWelcomeItems() {
         ArrayList<WelcomeItem> welcomeItemArrayList = new ArrayList<>();
         welcomeItemArrayList.add(createWelcomeItem(DEFAULT));
         welcomeItemArrayList.add(createWelcomeItem(MEDICINE));
@@ -122,6 +116,7 @@ public class WelcomeFragment extends Fragment implements WelcomeAdapter.WelcomeA
 
     @Override
     public void onItemAdded() {
+        rvItems.smoothScrollToPosition(mWelcomeAdapter.getItemCount() - 1);
         if (mWelcomeAdapter.getItemCount() < 6) {
             mRunnable = new Runnable() {
                 @Override
@@ -129,12 +124,9 @@ public class WelcomeFragment extends Fragment implements WelcomeAdapter.WelcomeA
                     mWelcomeAdapter.addItem(createWelcomeItem(mWelcomeAdapter.getItemCount()));
                 }
             };
-
-            mHandler = new Handler();
             mHandler.postDelayed(mRunnable, 2000);
         } else {
             mHandler.removeCallbacks(mRunnable);
         }
-
     }
 }
