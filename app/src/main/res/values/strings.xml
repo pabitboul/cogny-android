@@ -6,6 +6,11 @@
 
     <string name="action_settings">Settings</string>
 
+    <!--Fragment titles -->
+    <string name="fragment_title_diet">Diet</string>
+    <string name="fragment_title_exercise">Gym</string>
+    <string name="fragment_title_medicine">Medicine</string>
+
     <string name="meds_fragment">Meds fragment</string>
     <string name="foods_fragment">Foods fragment</string>
     <string name="gyms_fragment">Gyms fragment</string>
@@ -22,6 +27,8 @@
     <string name="exercise_body">Te recordaré hacer ejercicios e iremos definiendo objetivos a cu&#8230;</string>
     <string name="mood_title">Estado de ánimo</string>
     <string name="mood_body">Seguiré tu estado de ánimo. Es muy importante!</string>
+    <string name="tips_title">Tips</string>
+    <string name="tips_body">Aprenderemos valiosos tips que nos ayudarán a vivir mejor.</string>
     <string name="start_text">Comenzar!</string>
     <string name="continue_text">Continuar</string>
     <string name="start_title">Hola, comencemos!</string>
@@ -50,10 +57,12 @@
     <string name="suggested_lunch_second">Omelette</string>
     <string name="suggested_lunch_third">Zapallitos rellenos</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_welcome">WelcomeActivity</string>
-    <!--Foods fragment -->
+    <!--Assistant questions -->
+    <string name="assistant_message_greeting">Buenos días Pablo!</string>
+    <string name="assistant_message_default">Estoy aquí para lo que necesites.</string>
+    <string name="assistant_question_one">¿Listo para ver las opciones de desayuno?</string>
 
+    <!--User answers -->
+    <string name="user_answer_negative">No, gracias.</string>
 
 </resources>

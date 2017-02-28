@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="8dp"
+    android:paddingTop="8dp">
+
+    <RelativeLayout
+        android:id="@+id/chat_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:background="@drawable/rectangle_round_corners_white"
+        tools:ignore="UselessParent">
+
+        <TextView
+            android:id="@+id/txt_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:textAlignment="textStart"
+            tools:text="I have some ideas you might like for recipes and restaurants. Do you want to see them?" />
+
+        <TextView
+            android:id="@+id/txt_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/txt_message"
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="8dp"
+            android:textSize="8sp"
+            tools:ignore="SmallSp"
+            tools:text="12:42 PM" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

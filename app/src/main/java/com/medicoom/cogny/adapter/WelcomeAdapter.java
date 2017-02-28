@@ -22,36 +22,36 @@ public class WelcomeAdapter extends RecyclerView.Adapter<WelcomeAdapter.WelcomeV
     private List<WelcomeItem> mWelcomeItemList;
     private Context mContext;
     private int mLastPosition;
-    private WelcomeAdapterListener mListener;
+    private RecyclerViewAdapterListener mRecyclerViewAdapterListener;
 
-    public interface WelcomeAdapterListener {
-        void onItemAdded();
-    }
-
-    @Override
-    public WelcomeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.welcome_view_item, parent, false);
-        return new WelcomeViewHolder(view);
-    }
-
-    public WelcomeAdapter(List<WelcomeItem> list, Context context, WelcomeAdapterListener listener) {
+    public WelcomeAdapter(List<WelcomeItem> list, Context context) {
         mWelcomeItemList = list;
         mContext = context;
-        mListener = listener;
         mLastPosition = -1;
     }
 
-    public WelcomeAdapter(WelcomeAdapterListener listener, Context context) {
+    public WelcomeAdapter(Context context) {
         mWelcomeItemList = new ArrayList<>();
         mContext = context;
-        mListener = listener;
         mLastPosition = -1;
     }
 
     public void addItem(WelcomeItem welcomeItem) {
         mWelcomeItemList.add(welcomeItem);
         notifyItemInserted(mWelcomeItemList.size() - 1);
-        mListener.onItemAdded();
+        if (mRecyclerViewAdapterListener != null) {
+            mRecyclerViewAdapterListener.onItemAdded();
+        }
+    }
+
+    public void setRecyclerViewAdapterListener(RecyclerViewAdapterListener listener) {
+        mRecyclerViewAdapterListener = listener;
+    }
+
+    @Override
+    public WelcomeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_welcome, parent, false);
+        return new WelcomeViewHolder(view);
     }
 
     @Override
@@ -59,6 +59,10 @@ public class WelcomeAdapter extends RecyclerView.Adapter<WelcomeAdapter.WelcomeV
         viewHolder.title.setText(mWelcomeItemList.get(position).getTitle());
         viewHolder.body.setText(mWelcomeItemList.get(position).getBody());
         viewHolder.image.setImageResource(mWelcomeItemList.get(position).getIcon());
+        viewHolder.image.setVisibility(View.VISIBLE);
+        if (position == 0) {
+            viewHolder.image.setVisibility(View.GONE);
+        }
 
         setAnimation(viewHolder.cv, position);
     }

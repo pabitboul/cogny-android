@@ -1,5 +1,6 @@
 package com.medicoom.cogny.fragment;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -7,8 +8,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.medicoom.cogny.R;
+import com.medicoom.cogny.activity.HomeActivity;
+import com.medicoom.cogny.adapter.RecyclerViewAdapterListener;
 import com.medicoom.cogny.adapter.WelcomeAdapter;
 import com.medicoom.cogny.model.WelcomeItem;
 import com.medicoom.cogny.view.SmoothScrollingLinearLayoutManager;
@@ -21,12 +25,13 @@ import static com.medicoom.cogny.fragment.WelcomeFragment.WelcomeItemType.DIET;
 import static com.medicoom.cogny.fragment.WelcomeFragment.WelcomeItemType.EXERCISE;
 import static com.medicoom.cogny.fragment.WelcomeFragment.WelcomeItemType.MEDICINE;
 import static com.medicoom.cogny.fragment.WelcomeFragment.WelcomeItemType.MOOD;
+import static com.medicoom.cogny.fragment.WelcomeFragment.WelcomeItemType.TIP;
 
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class WelcomeFragment extends Fragment implements WelcomeAdapter.WelcomeAdapterListener {
+public class WelcomeFragment extends Fragment implements RecyclerViewAdapterListener {
     private RecyclerView rvItems;
     private SmoothScrollingLinearLayoutManager smoothScrollingLinearLayoutManager;
     private WelcomeAdapter mWelcomeAdapter;
@@ -35,14 +40,21 @@ public class WelcomeFragment extends Fragment implements WelcomeAdapter.WelcomeA
 
     interface WelcomeItemType {
         int DEFAULT = 0;
-        int MEDICINE = 1;
+        int TIP = 1;
         int DIET = 2;
         int CARBOHYDRATES = 3;
         int EXERCISE = 4;
         int MOOD = 5;
+        int MEDICINE = 6;
     }
 
     public WelcomeFragment() {
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        mHandler.removeCallbacks(mRunnable);
     }
 
     @Override
@@ -51,13 +63,23 @@ public class WelcomeFragment extends Fragment implements WelcomeAdapter.WelcomeA
         View rootView = inflater.inflate(R.layout.fragment_welcome, container, false);
         rvItems = (RecyclerView) rootView.findViewById(R.id.rv_welcome);
         smoothScrollingLinearLayoutManager = new SmoothScrollingLinearLayoutManager(getActivity());
+        Button startButton = (Button) rootView.findViewById(R.id.btn_start);
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
+                startActivity(homeIntent);
+                getActivity().finish();
+            }
+        });
         return rootView;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mWelcomeAdapter = new WelcomeAdapter(this, getActivity());
+        mWelcomeAdapter = new WelcomeAdapter(getActivity());
+        mWelcomeAdapter.setRecyclerViewAdapterListener(this);
         mHandler = new Handler();
         rvItems.setHasFixedSize(true);
         rvItems.setLayoutManager(smoothScrollingLinearLayoutManager);
@@ -94,10 +116,14 @@ public class WelcomeFragment extends Fragment implements WelcomeAdapter.WelcomeA
                 itemWelcome.setBody(getString(R.string.mood_body));
                 itemWelcome.setIcon(R.drawable.ic_mood);
                 break;
+            case TIP:
+                itemWelcome.setTitle(getString(R.string.tips_title));
+                itemWelcome.setBody(getString(R.string.tips_body));
+                itemWelcome.setIcon(R.drawable.ic_tip);
+                break;
             default:
                 itemWelcome.setTitle(getString(R.string.welcome_title));
                 itemWelcome.setBody(getString(R.string.welcome_body));
-                itemWelcome.setIcon(R.drawable.ic_mood);
         }
 
         return itemWelcome;
@@ -106,18 +132,19 @@ public class WelcomeFragment extends Fragment implements WelcomeAdapter.WelcomeA
     private ArrayList<WelcomeItem> createWelcomeItems() {
         ArrayList<WelcomeItem> welcomeItemArrayList = new ArrayList<>();
         welcomeItemArrayList.add(createWelcomeItem(DEFAULT));
-        welcomeItemArrayList.add(createWelcomeItem(MEDICINE));
+        welcomeItemArrayList.add(createWelcomeItem(TIP));
         welcomeItemArrayList.add(createWelcomeItem(DIET));
         welcomeItemArrayList.add(createWelcomeItem(CARBOHYDRATES));
         welcomeItemArrayList.add(createWelcomeItem(EXERCISE));
         welcomeItemArrayList.add(createWelcomeItem(MOOD));
+        welcomeItemArrayList.add(createWelcomeItem(MEDICINE));
         return welcomeItemArrayList;
     }
 
     @Override
     public void onItemAdded() {
         rvItems.smoothScrollToPosition(mWelcomeAdapter.getItemCount() - 1);
-        if (mWelcomeAdapter.getItemCount() < 6) {
+        if (mWelcomeAdapter.getItemCount() < 7) {
             mRunnable = new Runnable() {
                 @Override
                 public void run() {

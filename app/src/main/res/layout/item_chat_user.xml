@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="8dp"
+    android:paddingTop="8dp">
+
+    <RelativeLayout
+        android:id="@+id/chat_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/rectangle_round_corners_primary"
+        android:gravity="end"
+        tools:ignore="RelativeOverlap">
+
+        <TextView
+            android:id="@+id/txt_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="35dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/white"
+            tools:ignore="RelativeOverlap"
+            tools:text="Show me recipes recipes Show me recipes Show me recipes Show me recipes Show me recipes Show me recipes" />
+
+        <TextView
+            android:id="@+id/txt_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/txt_message"
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="40dp"
+            android:textColor="@android:color/white"
+            android:textSize="8sp"
+            tools:ignore="SmallSp"
+            tools:text="12:42 PM" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/img_user"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom|end"
+        android:background="@drawable/circle_white"
+        android:src="@drawable/img_profile_circle"
+        android:tint="@color/colorPrimary"
+        tools:ignore="ContentDescription" />
+
+
+</FrameLayout>
