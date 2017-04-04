@@ -13,6 +13,17 @@ public class Message {
     private String title;
     private Detail detail;
 
+    public interface Type {
+        int WELCOME = 1;
+        int CONFIGURATION = 2;
+        int DIET = 3;
+        int MEDICINE = 4;
+        int EXERCISE = 5;
+        int MOOD = 6;
+        int TIPS = 7;
+        int CARBOHYDRATES = 8;
+    }
+
     public String getIdentifier() {
         return identifier;
     }
@@ -100,4 +111,5 @@ public class Message {
     public void setDetail(Detail detail) {
         this.detail = detail;
     }
+
 }

@@ -10,49 +10,35 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.android.volley.VolleyError;
 import com.medicoom.cogny.R;
 import com.medicoom.cogny.activity.HomeActivity;
+import com.medicoom.cogny.adapter.MessageAdapter;
 import com.medicoom.cogny.adapter.RecyclerViewAdapterListener;
-import com.medicoom.cogny.adapter.WelcomeAdapter;
-import com.medicoom.cogny.model.WelcomeItem;
+import com.medicoom.cogny.model.Message;
+import com.medicoom.cogny.network.RequestListener;
 import com.medicoom.cogny.view.SmoothScrollingLinearLayoutManager;
 
-import java.util.ArrayList;
-
-import static com.medicoom.cogny.fragment.WelcomeFragment.WelcomeItemType.CARBOHYDRATES;
-import static com.medicoom.cogny.fragment.WelcomeFragment.WelcomeItemType.DEFAULT;
-import static com.medicoom.cogny.fragment.WelcomeFragment.WelcomeItemType.DIET;
-import static com.medicoom.cogny.fragment.WelcomeFragment.WelcomeItemType.EXERCISE;
-import static com.medicoom.cogny.fragment.WelcomeFragment.WelcomeItemType.MEDICINE;
-import static com.medicoom.cogny.fragment.WelcomeFragment.WelcomeItemType.MOOD;
-import static com.medicoom.cogny.fragment.WelcomeFragment.WelcomeItemType.TIP;
+import java.util.List;
+import java.util.Map;
 
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class WelcomeFragment extends Fragment implements RecyclerViewAdapterListener {
+public class WelcomeFragment extends Fragment implements RequestListener, RecyclerViewAdapterListener {
     private RecyclerView rvItems;
     private SmoothScrollingLinearLayoutManager smoothScrollingLinearLayoutManager;
-    private WelcomeAdapter mWelcomeAdapter;
+    private MessageAdapter mMessageAdapter;
     private Runnable mRunnable;
     private Handler mHandler;
-
-    interface WelcomeItemType {
-        int DEFAULT = 0;
-        int TIP = 1;
-        int DIET = 2;
-        int CARBOHYDRATES = 3;
-        int EXERCISE = 4;
-        int MOOD = 5;
-        int MEDICINE = 6;
-    }
+    private List<Message> mWelcomeList;
 
     public WelcomeFragment() {
     }
 
     @Override
-    public void onStop(){
+    public void onStop() {
         super.onStop();
         mHandler.removeCallbacks(mRunnable);
     }
@@ -78,82 +64,42 @@ public class WelcomeFragment extends Fragment implements RecyclerViewAdapterList
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mWelcomeAdapter = new WelcomeAdapter(getActivity());
-        mWelcomeAdapter.setRecyclerViewAdapterListener(this);
+        mMessageAdapter = new MessageAdapter(Message.Type.WELCOME, this, getActivity());
         mHandler = new Handler();
         rvItems.setHasFixedSize(true);
         rvItems.setLayoutManager(smoothScrollingLinearLayoutManager);
-        rvItems.setAdapter(mWelcomeAdapter);
-        mWelcomeAdapter.addItem(createWelcomeItem(DEFAULT));
-
-    }
-
-    private WelcomeItem createWelcomeItem(int type) {
-        WelcomeItem itemWelcome = new WelcomeItem();
-        switch (type) {
-            case MEDICINE:
-                itemWelcome.setTitle(getString(R.string.medication_title));
-                itemWelcome.setBody(getString(R.string.medication_body));
-                itemWelcome.setIcon(R.drawable.ic_medicine);
-                break;
-            case DIET:
-                itemWelcome.setTitle(getString(R.string.diet_title));
-                itemWelcome.setBody(getString(R.string.diet_body));
-                itemWelcome.setIcon(R.drawable.ic_food);
-                break;
-            case CARBOHYDRATES:
-                itemWelcome.setTitle(getString(R.string.carbohydrates_title));
-                itemWelcome.setBody(getString(R.string.carbohydrates_body));
-                itemWelcome.setIcon(R.drawable.ic_carbohydrates);
-                break;
-            case EXERCISE:
-                itemWelcome.setTitle(getString(R.string.exercise_title));
-                itemWelcome.setBody(getString(R.string.exercise_body));
-                itemWelcome.setIcon(R.drawable.ic_exercise);
-                break;
-            case MOOD:
-                itemWelcome.setTitle(getString(R.string.mood_title));
-                itemWelcome.setBody(getString(R.string.mood_body));
-                itemWelcome.setIcon(R.drawable.ic_mood);
-                break;
-            case TIP:
-                itemWelcome.setTitle(getString(R.string.tips_title));
-                itemWelcome.setBody(getString(R.string.tips_body));
-                itemWelcome.setIcon(R.drawable.ic_tip);
-                break;
-            default:
-                itemWelcome.setTitle(getString(R.string.welcome_title));
-                itemWelcome.setBody(getString(R.string.welcome_body));
-        }
-
-        return itemWelcome;
-    }
-
-    private ArrayList<WelcomeItem> createWelcomeItems() {
-        ArrayList<WelcomeItem> welcomeItemArrayList = new ArrayList<>();
-        welcomeItemArrayList.add(createWelcomeItem(DEFAULT));
-        welcomeItemArrayList.add(createWelcomeItem(TIP));
-        welcomeItemArrayList.add(createWelcomeItem(DIET));
-        welcomeItemArrayList.add(createWelcomeItem(CARBOHYDRATES));
-        welcomeItemArrayList.add(createWelcomeItem(EXERCISE));
-        welcomeItemArrayList.add(createWelcomeItem(MOOD));
-        welcomeItemArrayList.add(createWelcomeItem(MEDICINE));
-        return welcomeItemArrayList;
+        rvItems.setAdapter(mMessageAdapter);
     }
 
     @Override
     public void onItemAdded() {
-        rvItems.smoothScrollToPosition(mWelcomeAdapter.getItemCount() - 1);
-        if (mWelcomeAdapter.getItemCount() < 7) {
+        rvItems.smoothScrollToPosition(mMessageAdapter.getItemCount() - 1);
+        if (mMessageAdapter.getItemCount() < 7) {
             mRunnable = new Runnable() {
                 @Override
                 public void run() {
-                    mWelcomeAdapter.addItem(createWelcomeItem(mWelcomeAdapter.getItemCount()));
+                    mMessageAdapter.addItem(mWelcomeList.get(mMessageAdapter.getItemCount()));
                 }
             };
             mHandler.postDelayed(mRunnable, 2000);
         } else {
             mHandler.removeCallbacks(mRunnable);
         }
+    }
+
+    @Override
+    public void onSuccess(Object object) {
+        mWelcomeList = (List<Message>) object;
+        mMessageAdapter.addItem(mWelcomeList.get(mMessageAdapter.getItemCount()));
+    }
+
+    @Override
+    public void onError(VolleyError error) {
+
+    }
+
+    @Override
+    public void onSuccess(Object clazz, Map headers) {
+
     }
 }
