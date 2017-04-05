@@ -58,9 +58,12 @@ class GsonRequest<T> extends Request<T> {
     @Override
     protected Response<T> parseNetworkResponse(NetworkResponse response) {
         try {
+            /*String json = new String(
+                    response.data,
+                    HttpHeaderParser.parseCharset(response.headers));*/
             String json = new String(
                     response.data,
-                    HttpHeaderParser.parseCharset(response.headers));
+                    "UTF-8");
             mResponseHeaders = response.headers;
             //noinspection unchecked
             return (Response<T>) Response.success(gson.fromJson(json, type),

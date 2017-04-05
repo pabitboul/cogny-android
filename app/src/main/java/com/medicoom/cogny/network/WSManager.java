@@ -15,7 +15,10 @@ import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
 import com.google.gson.reflect.TypeToken;
+import com.medicoom.cogny.model.Message;
+import com.medicoom.cogny.model.Messages;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 import static com.medicoom.cogny.helper.Constants.SOCKET_TIMEOUT;
@@ -62,15 +65,15 @@ public class WSManager {
 
 
     @SuppressWarnings({"unchecked", "WeakerAccess"})
-    private void getMessages(String url, final RequestListener<Object> requestListener, String tag, @NonNull final Context context) {
+    private void getMessages(String url, final RequestListener<Messages> requestListener, String tag, @NonNull final Context context) {
         initRequestQueue(Objects.requireNonNull(context));
-        GsonRequest<Object> request = new GsonRequest(Request.Method.GET, url, new TypeToken<Object>() {
+        GsonRequest<Messages> request = new GsonRequest(Request.Method.GET, url, new TypeToken<Messages>() {
         }.getType(), null,
 
-                new Response.Listener<Object>() {
+                new Response.Listener<Messages>() {
 
                     @Override
-                    public void onResponse(Object response) {
+                    public void onResponse(Messages response) {
                         requestListener.onSuccess(response);
                     }
                 },
@@ -88,15 +91,15 @@ public class WSManager {
         addRequestToQueue(request);
     }
 
-    public void getWelcomeMessages(final RequestListener<Object> requestListener, String tag, @NonNull final Context context) {
+    public void getWelcomeMessages(final RequestListener<Messages> requestListener, String tag, @NonNull final Context context) {
         getMessages(URL_WELCOME, requestListener, tag, context);
     }
 
-    public void getFoodMessages(final RequestListener<Object> requestListener, String tag, @NonNull final Context context) {
+    public void getFoodMessages(final RequestListener<Messages> requestListener, String tag, @NonNull final Context context) {
         getMessages(URL_FOOD, requestListener, tag, context);
     }
 
-    public void getConfigurationMessages(final RequestListener<Object> requestListener, String tag, @NonNull final Context context) {
+    public void getConfigurationMessages(final RequestListener<Messages> requestListener, String tag, @NonNull final Context context) {
         getMessages(URL_CONFIGURATION, requestListener, tag, context);
     }
 

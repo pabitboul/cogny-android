@@ -19,13 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
-    private List<Message> mMessageList;
+    private ArrayList<Message> mMessageList;
     private static int mType;
     private Context mContext;
     private int mLastPosition;
     private RecyclerViewAdapterListener mRecyclerViewAdapterListener;
 
-    public MessageAdapter(List<Message> messageList, int category, RecyclerViewAdapterListener recyclerViewAdapterListener, Context context) {
+    public MessageAdapter(ArrayList<Message> messageList, int category, RecyclerViewAdapterListener recyclerViewAdapterListener, Context context) {
         mMessageList = messageList;
         mType = category;
         mRecyclerViewAdapterListener = recyclerViewAdapterListener;
@@ -53,7 +53,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     public MessageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
         MessageViewHolder viewHolder;
-        switch (viewType) {
+        switch (mType) {
             case Message.Type.WELCOME:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_welcome, parent, false);
                 viewHolder = new MessageViewHolder(view);
@@ -67,7 +67,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
     @Override
     public void onBindViewHolder(MessageAdapter.MessageViewHolder viewHolder, int position) {
-        switch (viewHolder.getItemViewType()) {
+        switch (mType) {
             case Message.Type.WELCOME:
                 viewHolder.title.setText(mMessageList.get(position).getTitle());
                 viewHolder.body.setText(mMessageList.get(position).getText());

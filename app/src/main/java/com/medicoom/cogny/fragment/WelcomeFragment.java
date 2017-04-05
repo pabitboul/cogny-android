@@ -16,9 +16,12 @@ import com.medicoom.cogny.activity.HomeActivity;
 import com.medicoom.cogny.adapter.MessageAdapter;
 import com.medicoom.cogny.adapter.RecyclerViewAdapterListener;
 import com.medicoom.cogny.model.Message;
+import com.medicoom.cogny.model.Messages;
 import com.medicoom.cogny.network.RequestListener;
+import com.medicoom.cogny.network.WSManager;
 import com.medicoom.cogny.view.SmoothScrollingLinearLayoutManager;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +29,7 @@ import java.util.Map;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class WelcomeFragment extends Fragment implements RequestListener, RecyclerViewAdapterListener {
+public class WelcomeFragment extends Fragment implements RequestListener<Messages>, RecyclerViewAdapterListener {
     private RecyclerView rvItems;
     private SmoothScrollingLinearLayoutManager smoothScrollingLinearLayoutManager;
     private MessageAdapter mMessageAdapter;
@@ -64,6 +67,7 @@ public class WelcomeFragment extends Fragment implements RequestListener, Recycl
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        WSManager.getInstance().getWelcomeMessages(this, getClass().getName(), getActivity());
         mMessageAdapter = new MessageAdapter(Message.Type.WELCOME, this, getActivity());
         mHandler = new Handler();
         rvItems.setHasFixedSize(true);
@@ -88,9 +92,14 @@ public class WelcomeFragment extends Fragment implements RequestListener, Recycl
     }
 
     @Override
-    public void onSuccess(Object object) {
-        mWelcomeList = (List<Message>) object;
+    public void onSuccess(Messages messages) {
+        mWelcomeList = messages.getMessages();
         mMessageAdapter.addItem(mWelcomeList.get(mMessageAdapter.getItemCount()));
+    }
+
+    @Override
+    public void onSuccess(Messages messages, Map<String, String> headers) {
+
     }
 
     @Override
@@ -98,8 +107,5 @@ public class WelcomeFragment extends Fragment implements RequestListener, Recycl
 
     }
 
-    @Override
-    public void onSuccess(Object clazz, Map headers) {
 
-    }
 }
